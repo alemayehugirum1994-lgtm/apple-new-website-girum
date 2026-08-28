@@ -1,0 +1,469 @@
+/* ============================================================
+   Apple Homepage Recreation (current lineup)
+   Developed by: Girum Alemayehu
+   Student practice project — not affiliated with Apple Inc.
+   Product images are hotlinked from Apple's public CDN.
+   ============================================================ */
+
+/* ---------- Reset & tokens ---------- */
+:root {
+  --white:        #ffffff;
+  --off-white:    #fbfbfd;
+  --near-black:   #000000;
+  --ink:          #1d1d1f;   /* primary text on light */
+  --ink-soft:     #f5f5f7;   /* primary text on dark  */
+  --gray:         #6e6e73;
+  --gray-2:       #86868b;
+  --link:         #0066cc;   /* Apple blue */
+  --link-dark:    #2997ff;   /* Apple blue on dark bg */
+  --footer-bg:    #f5f5f7;
+  --hairline:     #d2d2d7;
+  --air-blue:     #e3f0fb;   /* MacBook Air tile */
+  --air-blue2:    #cfe6f7;   /* iPad Air tile     */
+  --font: "SF Pro Display", "SF Pro Text", -apple-system,
+          BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--white);
+  line-height: 1.4;
+}
+
+img { max-width: 100%; display: block; }
+
+a { text-decoration: none; color: inherit; }
+
+/* ============================================================
+   GLOBAL NAV  (light, frosted — matches the current apple.com)
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 250, 252, 0.8);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.nav__inner {
+  max-width: 980px;
+  margin: 0 auto;
+  height: 44px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo { color: var(--ink); display: flex; align-items: center; opacity: .8; }
+.nav__logo:hover { opacity: 1; }
+
+.nav__list,
+.nav__icons {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.nav__icons { gap: 22px; }
+
+.nav__list a,
+.nav__icons a {
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  opacity: .85;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.nav__list a:hover,
+.nav__icons a:hover { opacity: 1; }
+
+/* ============================================================
+   DONATION NOTICE
+   ============================================================ */
+.notice {
+  background: var(--white);
+  text-align: center;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--footer-bg);
+}
+.notice p { margin: 0; font-size: 14px; color: var(--ink); }
+.notice a { color: var(--link); }
+.notice a:hover { text-decoration: underline; }
+
+/* ============================================================
+   HERO SECTIONS  (full-width, text on top, image below)
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: 52px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero--light { background: var(--white); color: var(--ink); }
+.hero--light + .hero--light { background: var(--off-white); }
+
+.hero__copy { padding: 0 20px; }
+
+.hero__overline {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.hero__title {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+}
+.hero__title em { font-style: italic; font-weight: 500; color: var(--link); }
+
+.hero__subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.004em;
+  margin-top: 6px;
+}
+
+.hero__links {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 16px;
+  font-size: 19px;
+}
+.hero__links a { color: var(--link); }
+.hero--dark .hero__links a,
+.hero--event .hero__links a { color: var(--link-dark); }
+.hero__links a:hover { text-decoration: underline; }
+
+/* pill CTAs (used by event + college) */
+.hero__cta { margin-top: 18px; }
+.btn {
+  display: inline-block;
+  font-size: 17px;
+  line-height: 1;
+  padding: 8px 18px;
+  border-radius: 980px;
+  transition: background-color .2s ease, color .2s ease, opacity .2s ease;
+}
+.btn:hover { text-decoration: none; }
+.btn--blue  { background: var(--link); color: #fff; }
+.btn--blue:hover  { background: #0077ed; }
+.btn--light { background: rgba(255,255,255,.92); color: var(--ink); }
+.btn--light:hover { background: #fff; }
+
+/* ---------- Hero media ---------- */
+.hero__media {
+  width: 100%;
+  max-width: 980px;
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero__media img { width: 100%; height: auto; }
+
+/* Faint product-stage backdrop so the area reads as intentional
+   while the CDN image loads (or if the page is opened offline). */
+.hero__media--iphone,
+.hero__media--edu {
+  border-radius: 12px;
+  background: radial-gradient(90% 80% at 50% 40%, #ffffff 0%, #f1f1f4 100%);
+}
+
+/* Apple Event hero: dark blue gradient, light text */
+.hero--event {
+  background: radial-gradient(120% 90% at 50% 30%, #8fb2e0 0%, #5f83b8 55%, #46618f 100%);
+  color: #fff;
+  padding-top: 56px;
+}
+.hero--event .hero__subtitle { color: rgba(255,255,255,.92); }
+.hero__title--event { font-weight: 600; }
+.hero__media--event { max-width: 680px; margin-top: 10px; }
+.hero__media--event img { border-radius: 0; }
+
+.hero__media--iphone { max-width: 760px; }
+.hero__media--edu    { max-width: 900px; }
+
+/* ============================================================
+   TILE GRID  (two-up on desktop, stacks on mobile)
+   ============================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.tile {
+  text-align: center;
+  padding: 44px 0 0;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 500px;
+}
+
+.tile--light { background: var(--off-white); color: var(--ink); }
+.tile--dark  { background: var(--near-black); color: var(--ink-soft); }
+.tile--air   { background: linear-gradient(180deg, #eaf3fb 0%, var(--air-blue) 100%); }
+.tile--air2  { background: linear-gradient(180deg, #d7ecfb 0%, var(--air-blue2) 100%); }
+
+.tile__copy { padding: 0 20px; }
+
+.tile__overline {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tile__brand {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.apple-glyph {
+  width: 0.72em;
+  height: 0.72em;
+  display: inline-block;
+  vertical-align: baseline;
+  position: relative;
+  top: 0.02em;
+}
+
+.tile__title {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.tile__title em { font-style: italic; font-weight: 500; color: var(--link); }
+
+.tile__subtitle {
+  font-size: 19px;
+  font-weight: 400;
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+.tile__note {
+  font-size: 15px;
+  color: var(--gray);
+  margin-top: 8px;
+}
+
+.tile__links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 12px;
+  font-size: 17px;
+}
+.tile__links a { color: var(--link); }
+.tile--dark .tile__links a { color: var(--link-dark); }
+.tile__links a:hover { text-decoration: underline; }
+
+/* ---------- Tile media ---------- */
+.tile__media {
+  width: 100%;
+  flex: 1;
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 10px 8px;
+}
+.tile__media img { width: auto; max-width: 100%; max-height: 300px; height: auto; }
+.tile__media--product { background: radial-gradient(80% 70% at 50% 55%, #ffffff 0%, #eef0f2 100%); border-radius: 14px; }
+.tile__media--product img { max-height: 240px; }
+.tile__media--wide img { max-height: 300px; }
+
+/* ============================================================
+   ENDLESS ENTERTAINMENT
+   ============================================================ */
+.ent {
+  background: var(--off-white);
+  padding: 40px 0 48px;
+  text-align: center;
+}
+.ent__title {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+.ent__row {
+  display: flex;
+  gap: 14px;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 4px 12px 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.card {
+  scroll-snap-align: center;
+  flex: 0 0 78%;
+  max-width: 320px;
+  aspect-ratio: 3 / 4;
+  border-radius: 18px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 22px;
+  font-weight: 600;
+}
+.card--arcade  { background: radial-gradient(circle at 50% 40%, #ff5a6a, #b3132a); }
+.card--tv      { background: linear-gradient(180deg, #2a3550, #0f1524); justify-content: flex-start; padding-top: 34px; }
+.card--fitness { background: linear-gradient(180deg, #7a8f4a, #4c5c28); }
+.card--music   { background: linear-gradient(180deg, #3a3a3a, #111); }
+.card__brand { font-size: 17px; }
+.card__name  { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }
+.card__meta  { font-size: 13px; font-weight: 400; opacity: .85; }
+.card__cta   { margin-top: auto; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--footer-bg);
+  color: var(--gray);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer__inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 22px 30px;
+}
+
+.footer__legal {
+  color: var(--gray-2);
+  padding: 6px 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.footer__legal:last-of-type { border-bottom: 1px solid var(--hairline); padding-bottom: 16px; }
+
+/* ---------- Link columns ---------- */
+.footer__cols {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.footer__col h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.footer__col-second { margin-top: 18px; }
+
+.footer__col ul { list-style: none; }
+.footer__col li { margin-bottom: 8px; }
+.footer__col a { color: var(--gray); transition: color 0.15s ease; }
+.footer__col a:hover { color: var(--ink); text-decoration: underline; }
+
+/* ---------- Bottom bar ---------- */
+.footer__bottom { padding-top: 16px; }
+.footer__more { color: var(--gray-2); margin-bottom: 14px; }
+.footer__more a { color: var(--link); }
+.footer__more a:hover { text-decoration: underline; }
+
+.footer__rule { border: none; border-top: 1px solid var(--hairline); margin: 12px 0; }
+
+.footer__legalbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  color: var(--gray-2);
+}
+.footer__legallinks { list-style: none; display: flex; flex-wrap: wrap; gap: 0; }
+.footer__legallinks li { position: relative; padding: 0 10px; }
+.footer__legallinks li + li::before {
+  content: "";
+  position: absolute; left: 0; top: 2px; bottom: 2px;
+  width: 1px; background: var(--hairline);
+}
+.footer__legallinks a { color: var(--gray-2); }
+.footer__legallinks a:hover { color: var(--ink); }
+
+.footer__region { margin-left: auto; }
+
+.footer__credit {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 833px) {
+  .hero__title { font-size: 40px; }
+  .hero__subtitle { font-size: 21px; }
+  .hero__links, .hero__overline { font-size: 17px; }
+  .ent__title { font-size: 32px; }
+
+  .footer__cols { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 734px) {
+  .nav__list { display: none; } /* Apple collapses to a menu icon here */
+
+  .hero { padding-top: 40px; }
+  .hero__title { font-size: 32px; }
+  .hero__subtitle { font-size: 19px; }
+
+  .grid { grid-template-columns: 1fr; }
+  .tile { min-height: 440px; }
+
+  .card { flex-basis: 82%; }
+
+  .footer__cols { grid-template-columns: 1fr; gap: 0; }
+  .footer__col { border-bottom: 1px solid var(--hairline); padding: 12px 0; }
+  .footer__col:last-child { border-bottom: none; }
+  .footer__legalbar { flex-direction: column; align-items: flex-start; }
+  .footer__region { margin-left: 0; }
+}
+
+/* ---------- Accessibility niceties ---------- */
+a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; }
+}
